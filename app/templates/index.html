@@ -28,14 +28,34 @@
         Опросный лист
     </div>
     <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <h5 class="card-title">О бытовых условиях и качестве организации питания в пункте временной изоляции (ПВИ)</h5>
+        <p class="card-text">
+
+        <div class="input-group mb-3">
+        
+        <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-secondary" type="button">ПВИ</button>
+        </div>
+        <select class="custom-select" id="inputGroupSelect03">
+            <option selected>Выберите...</option>
+            <option value="1">Ново-Уренгойское ЛПУМГ</option>
+            <option value="2">УС</option>
+            <option value="3">Губкинское ЛПУМГ</option>
+        </select>
+        </div>
+        
+        </p>
     </div>
     <div class="card-footer text-muted">
-        2 days ago
+        12 ноября
     </div>
     </div>
+
+    <script src="{% static "js/filial_choices.js" %}">
+    </script>
+    <script src="{% static "js/PVI_choices.js" %}">
+    </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
