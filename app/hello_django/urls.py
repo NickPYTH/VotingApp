@@ -4,10 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from upload.views import image_upload
-from voting.views import vote_list
+from voting.views import vote_list, index
 
 urlpatterns = [
-    path("", vote_list, name="main"),
+    path("", index, name="main"),
     path("admin/", admin.site.urls),
 ]
 
