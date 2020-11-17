@@ -28,12 +28,8 @@ DEBUG = True
 # 'DJANGO_ALLOWED_HOSTS' should be a single string of hosts with a space between each.
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-
-<<<<<<< HEAD
 ALLOWED_HOSTS = ['188.225.83.42']
-=======
-ALLOWED_HOSTS = ['188.225.83.42', 'localhost', '0.0.0.0', '127.0.0.1']
->>>>>>> 227cf56c73a7e3f17caeecbc4fa2a95156b7a528
+
 
 # Application definition
 
@@ -132,9 +128,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "staticfiles"),
+    os.path.join(BASE_DIR, "static"),
 ]
-STATIC_URL = "/staticfiles/"
+STATIC_URL = "/static/"
 #STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_URL = "/mediafiles/"
