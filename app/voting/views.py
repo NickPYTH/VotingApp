@@ -15,6 +15,7 @@ def index(request):
         link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
+
         try:
             isVote = request.COOKIES['isVote']
 
@@ -26,6 +27,7 @@ def index(request):
                 return render(request, "answer.html", context=data)
         except:
             pass
+
 
         date = Дата_окончания_голосования.objects.all()
         end_date = str(date[0])
@@ -50,6 +52,10 @@ def index(request):
             d1 = datetime.datetime.strptime(str(num_1_day)+"."+ str(num_1_mounth) +".2020", "%d.%m.%Y") # vote day
             d2 = datetime.datetime.strptime(str(num_2_day)+"."+ str(num_2_mounth) +".2020", "%d.%m.%Y") # end day для расчета длительнсти куки
             days_expire = (d2 - d1).days
+
+            questions_list = Список_вопросов.objects.all()
+            answer = request.GET[str(questions_list)]
+
             data = {
                 "link" : link,
                 "days_expire" : "До конца опроса осталось " +str(days_expire)+ " суток",
