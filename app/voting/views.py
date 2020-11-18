@@ -4,17 +4,39 @@ from .models import Список_вопросов, Список_ПВИ, Дата
 import datetime
 import random
 from django.http import HttpResponse
-from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.datastructures import MultiValueDictKeyError  
+import pandas as pd
 
 # Create your views here.
 
 def vote_list(request):
-    
     return render(request, "index.html")
+
+def stats(request):
+  	
+    answers = Список_ответов.objects.all()
+    questions = Список_вопросов.objects.all()
+    questions_list = []
+    for el in questions:
+        questions_list.append(el)
+
+    df = pd.DataFrame(questions_list)
+    writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
+    df.to_excel(writer, sheet_name='welcome', index=False)
+    writer.save()
+
+    print(questions_list[0])
+    data = {
+        "answers" : questions_list,
+        "questions" : questions_list,
+            
+            }
+    return render(request, "stats.html", context=data)
 
 def index(request):
     if request.method == "POST":
-        link = 'http://188.225.83.42:8000/'
+        #link = 'http://188.225.83.42:8000/'
+        link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
 
