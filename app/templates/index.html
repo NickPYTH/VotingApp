@@ -22,7 +22,7 @@
         On-line анкетирование
     </a>
     </nav>
-    <div class="row">
+    <div style="margin-right: 0; margin-left: 0;" class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
             <form method="POST">
@@ -79,7 +79,7 @@
                     <div class="input-group-prepend">
                             <span style="width: 100%; border-radius: 0;" class="input-group-text">Комментарий</span>
                     </div>
-                    <textarea style="width: 100%; border-radius: 0; min-height: 100px;" class="form-control" aria-label="With textarea"></textarea>
+                    <textarea name="{{question}}_comment"  style="width: 100%; border-radius: 0; min-height: 100px;" class="form-control" aria-label="With textarea"></textarea>
                 </div>
 
             {% endfor %}
@@ -87,7 +87,7 @@
 
             <div class="m-2">
                 <p class="card-text"> Ниже, Вы можете оставить свои предложения</p>
-                <textarea style="width: 100%; border-radius: 0; min-height: 80px;" class="form-control" aria-label="With textarea"></textarea>
+                <textarea name="wishes_text" style="width: 100%; border-radius: 0; min-height: 80px;" class="form-control" aria-label="With textarea"></textarea>
             </div>
 
             <button id="send" value="Send" type="submit" class="btn btn-secondary btn-lg m-4">Отправить</button>
