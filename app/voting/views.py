@@ -6,32 +6,18 @@ import random
 from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError  
 import pandas as pd
+from .forms import PasswordForm
 
 # Create your views here.
 
-def vote_list(request):
-    return render(request, "index.html")
+def stats_login(request):
+    form = PasswordForm(request.POST)
+    if form.is_valid():
+        return render(request, "stats_login.html")
+    else:
+        form = PasswordForm()
+        return render(request, 'stats_login.html', {'form': form})
 
-def stats(request):
-  	
-    answers = Список_ответов.objects.all()
-    questions = Список_вопросов.objects.all()
-    questions_list = []
-    for el in questions:
-        questions_list.append(el)
-
-    df = pd.DataFrame(questions_list)
-    writer = pd.ExcelWriter('test.xlsx', engine='xlsxwriter')
-    df.to_excel(writer, sheet_name='welcome', index=False)
-    writer.save()
-
-    print(questions_list[0])
-    data = {
-        "answers" : questions_list,
-        "questions" : questions_list,
-            
-            }
-    return render(request, "stats.html", context=data)
 
 def index(request):
     if request.method == "POST":
