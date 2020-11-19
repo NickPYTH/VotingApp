@@ -9,3 +9,11 @@ body {
     font-family: Comfortaa;
     overflow-x: hidden;
 }
+
+
+@media screen and (max-width: 900px) {
+    canvas {
+      visibility: hidden;
+      display: none;
+    }
+  }

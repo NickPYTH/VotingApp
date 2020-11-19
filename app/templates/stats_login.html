@@ -40,7 +40,18 @@
           <button id="send" value="Send" type="submit" class="btn btn-primary mb-2">Войти</button>
         </form>
       </div>
+      <div  class="col-lg-2"></div>
+      <div style="display: flex; justify-content: center; width:100%">
+        {% if not result %}
+            <div class="alert alert-danger" role="alert">
+              Неверный пароль
+            </div>
+        {% endif %}
+      </div>
+      
     </div>
+
+
         
 
     <!-- Optional JavaScript -->

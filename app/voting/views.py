@@ -8,15 +8,45 @@ from django.utils.datastructures import MultiValueDictKeyError
 import pandas as pd
 from .forms import PasswordForm
 
-# Create your views here.
 
 def stats_login(request):
     form = PasswordForm(request.POST)
     if form.is_valid():
-        return render(request, "stats_login.html")
+        if request.POST['password'] == "Qwerty2":  # PASSWORD KEK TO DO
+            questions_query = Список_вопросов.objects.all()
+            questions_list = []
+            for question in questions_query:
+                questions_list.append(question.question_text)
+            answers_list= Список_ответов.objects.all()
+            average_value = []
+
+            for el in questions_list:
+                average_value.append(10)
+
+            value_and_question = []
+            for i in range(len(average_value)):
+                value_and_question.append([questions_list[i], average_value[i], i+1])
+            
+            data = {
+                "questions" : questions_list,
+                "answers" : answers_list,
+                "value_and_question" : value_and_question,
+            }
+
+            return render(request, "stats.html", context=data)
+        else:
+            data = {
+                "result" : False,
+                'form': form,
+            }
+            return render(request, "stats_login.html", context=data)
     else:
         form = PasswordForm()
-        return render(request, 'stats_login.html', {'form': form})
+        data = {
+                "result" : True,
+                'form': form,
+            }
+        return render(request, 'stats_login.html', context=data)
 
 
 def index(request):
