@@ -25,14 +25,14 @@
     </a>
     </nav>
 
-    <div style="margin-right: 0; margin-left: 0;" class = "row">
+    <div style="margin-right: 0; margin-left: 0;" class = "row mb-5">
         <div class="col-lg-2"></div>
             <div class="col-lg-8 col-12">
                 <div class="card text-center m-2">
                     <div style="display: flex; justify-content: center; margin-top: -25px;" class="card-body">
                         <div class="row mt-3">
                             <div class="col-12">
-                                <ul class="list-group">
+                                <ul id="questions" class="list-group mb-4">
                                     {% for el in value_and_question %}
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <span id = "{{ el.2 }}" name="skill">{{ el.0 }}  </span> 
@@ -40,6 +40,7 @@
                                         </li>
                                     {% endfor %}
                                 </ul>           
+                                <button type="button" class="btn btn-outline-secondary">Скачать статистику</button>
                             </div>
                         </div>
                     </div>
@@ -49,65 +50,109 @@
         </div>
     </div>
 
-    <div style="margin-right: 0; margin-left: 0;" class="row">
-        <div class="col-12">
-            <canvas id="oilChart1"></canvas>
+    <div style="margin-right: 0; margin-left: 0;" class="row mb-5">
+        <div class="col-2"></div>
+            <div class="col-8">
+                <canvas id="oilChart1"></canvas>
+            </div>
+        <div class="col-2"></div>
     </div>
 
-    
+    <div style="margin-right: 0; margin-left: 0;" class="row mb-5">
+        <div class="col-2"></div>
+            <div class="col-8">
+                <canvas id="oilCanvas_polar"></canvas>
+            </div>
+        <div class="col-2"></div>
+    </div>
 
 
     <script>
+    
         var oilCanvas = document.getElementById("oilChart1");
+        var oilCanvas_polar = document.getElementById("oilCanvas_polar");
         lst = [];
         lst_val = [];
-        for (i = 1; i < 6; i++){
-            lst[i] = document.getElementById(i).textContent;
-            
-        }
  
+        var obj_list = document.querySelector('#questions'),
+            objs_list_li = obj_list.querySelectorAll('li');
 
-        for (i = 1; i < 6; i++){
-            lst_val[i] = document.getElementById(i+"_value").textContent;
-        }
+        // Перебираем все li в #list
+        for(var i = 0; i < objs_list_li.length; i++){
+        // Получаем список ul находящиеся в li
+        var objs_li_ul = objs_list_li[i].querySelectorAll('ul');
+            // Если li имеет ul, то применяем к заголовку стиль
+        };
+
+        var list = obj_list.querySelectorAll('li');
+        var list_len = list.length;
+        var res = [];
+        var res_points = [];
+        for(var i = 0; i < list_len; i++){
+            lst[i] = list[i].querySelectorAll('span')[0].textContent;
+            lst_val[i] = list[i].querySelectorAll('span')[1].textContent;
+            res.push(lst[i]);
+            res_points.push(lst_val[i]);
+        };
+
+
 
         Chart.defaults.global.defaultFontFamily = "Comfortaa";
         Chart.defaults.global.defaultFontSize = 18;
-        res = [];
+        
+        
         
         var oilData = {
-            labels: [
-                lst[1],
-                lst[2],
-                lst[3],
-                lst[4],
-                lst[5],
-            ],
+            labels: res,
             datasets: [
                 {
-                    data: [
-                        lst_val[1],
-                        lst_val[2],
-                        lst_val[3],
-                        lst_val[4],
-                        lst_val[5],
-
-                    ],
+                    data: res_points,
                     backgroundColor: [
                         "#1E90FF",
                         "#696969",
                         "#84FF63",
                         "#8463FF",
                         "#6384FF",
+                        '#36006d',
+                        '#e7ff0c',
+                        '#9500a2',
+                        '#ffb8ff',
+                        '#e2ff7e',
                     ],
+                    
+
                     borderWidth: 6
                 }]
         };
 
         var pieChart = new Chart(oilCanvas, {
         type: 'doughnut',
-        data: oilData
+        data: oilData,
+        options: {
+                title: {
+                    display: true,
+                    text: 'График 1'
+                },
+                legend: {
+                    display: false,
+                }
+            },
         });
+
+        var polarChart = new Chart(oilCanvas_polar, {
+        type: 'polarArea',
+        data: oilData,
+        options: {
+                title: {
+                    display: true,
+                    text: 'График 2'
+                },
+                legend: {
+                    display: false,
+                }
+            },
+        });
+        
     </script>
 
         

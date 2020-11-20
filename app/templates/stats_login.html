@@ -27,7 +27,7 @@
     <div class="row mt-5">
       <div class="col-lg-2"></div>
       <div style="display: flex; justify-content: center;" class="col-lg-8 col-12">
-        <form class="form-inline" method="POST">
+        <form class="form-inline" style="display: flex; justify-content: center;" method="POST">
           {% csrf_token %}
           <div class="form-group mb-2">
             <label for="staticEmail2" class="sr-only">Email</label>
@@ -37,7 +37,7 @@
             <label for="inputPassword2" class="sr-only">Пароль</label>
             {{form.password}}
           </div>
-          <button id="send" value="Send" type="submit" class="btn btn-primary mb-2">Войти</button>
+          <button id="send" value="Send" type="submit" class="btn btn-primary mb-2 ml-2">Войти</button>
         </form>
       </div>
       <div  class="col-lg-2"></div>
