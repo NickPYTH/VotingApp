@@ -4,17 +4,55 @@ from .models import Список_вопросов, Список_ПВИ, Дата
 import datetime
 import random
 from django.http import HttpResponse
-from django.utils.datastructures import MultiValueDictKeyError
+from django.utils.datastructures import MultiValueDictKeyError  
+import pandas as pd
+from .forms import PasswordForm
 
-# Create your views here.
 
-def vote_list(request):
-    
-    return render(request, "index.html")
+def stats_login(request):
+    form = PasswordForm(request.POST)
+    if form.is_valid():
+        if request.POST['password'] == "Qwerty2":  # PASSWORD KEK TO DO
+            questions_query = Список_вопросов.objects.all()
+            questions_list = []
+            for question in questions_query:
+                questions_list.append(question.question_text)
+            answers_list= Список_ответов.objects.all()
+            average_value = []
+
+            for el in questions_list:
+                average_value.append(10)
+
+            value_and_question = []
+            for i in range(len(average_value)):
+                value_and_question.append([questions_list[i], average_value[i], i+1])
+            
+            data = {
+                "questions" : questions_list,
+                "answers" : answers_list,
+                "value_and_question" : value_and_question,
+            }
+
+            return render(request, "stats.html", context=data)
+        else:
+            data = {
+                "result" : False,
+                'form': form,
+            }
+            return render(request, "stats_login.html", context=data)
+    else:
+        form = PasswordForm()
+        data = {
+                "result" : True,
+                'form': form,
+            }
+        return render(request, 'stats_login.html', context=data)
+
 
 def index(request):
     if request.method == "POST":
         link = 'http://188.225.83.42:8000/'
+        #link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
 
