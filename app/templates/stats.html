@@ -34,7 +34,7 @@
                             <div class="col-12">
                                 <ul id="questions" class="list-group mb-4">
                                     {% for el in value_and_question %}
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center text-left">
                                             <span id = "{{ el.2 }}" name="skill">{{ el.0 }}  </span> 
                                             <span id = "{{ el.2 }}_value" class="badge badge-primary badge-pill">{{ el.1 }}</span>
                                         </li>

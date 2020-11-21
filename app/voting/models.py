@@ -18,6 +18,7 @@ class Список_ответов(models.Model):
     Оценка = models.IntegerField()
     Комментарий = models.TextField(blank=True)
     Дата = models.DateField(auto_now=True)
+    ПВИ = models.CharField(max_length=30)
 
     def __str__(self):
         return str(self.unique_key) + " " + str(self.Дата) + " " +  str(self.Вопрос)
