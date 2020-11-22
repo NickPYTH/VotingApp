@@ -35,7 +35,6 @@ def get_stats(request):
         
             }
     answers_table = pd.DataFrame(answers_dict) 
-    print(answers_dict)
     pvi_dict = {
         "Название_ПВИ":[el.Название_ПВИ for el in pvi_list],
         "Местонахождение_ПВИ":[el.Местонахождение_ПВИ for el in pvi_list],
@@ -84,18 +83,19 @@ def stats_login(request):
             answers_list= Список_ответов.objects.all()
             average_value = []
         
-
-            for el in questions_list:
-                average_value.append(random.randint(1, 5))
-
-            value_and_question = []
-            for i in range(len(average_value)):
-                value_and_question.append([questions_list[i], average_value[i], i+1])
+            for ques in questions_list:
+                temp = Список_ответов.objects.filter(Вопрос=ques)
+                av_val_tmp = 0
+                counter = 0
+                for el in temp:
+                    av_val_tmp += el.Оценка
+                    counter += 1
+                average_value.append([el.Вопрос, round(float(av_val_tmp/counter), 1)])
             
             data = {
                 "questions" : questions_list,
                 "answers" : answers_list,
-                "value_and_question" : value_and_question,
+                "value_and_question" : average_value,
             }
 
             return render(request, "stats.html", context=data)
@@ -145,7 +145,6 @@ def index(request):
         upd_date = False
         if not tmp[0]:
             upd_date = True
-        print(upd_date ,tmp[1])
         try:
             isVote = request.COOKIES['isVote']
 
@@ -179,8 +178,6 @@ def index(request):
         else:
                 status = "NOT_OK"
 
-
-        
 
         if status == "NOT_OK":
             data = {
@@ -219,7 +216,6 @@ def index(request):
             unique_id = random.randint(0, 300000)
             try:
                 for i in range(len(answers_list)):
-                    print(results)
                     results.append([questions_list[i], answers_list[i], comment_list[i]])
                     Список_ответов(Вопрос=questions_list[i], Оценка=answers_list[i], unique_key=unique_id, Комментарий=comment_list[i], ПВИ=str(request.POST['select_pvi'])).save()
             except:

@@ -17,7 +17,7 @@
   <body>
     <!-- Image and text -->
     <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
         <img src="{% static "images/vote.svg" %}" width="40" height="40" class="d-inline-block align-top" alt="">
         #Загрузка статистики
     </a>
@@ -34,8 +34,13 @@
     </div>
   </div>
 
-  <a href="../mediafiles/out.xlsx">файл</a>
+  <a style="display: none;" id="download_btn" href="../mediafiles/out.xlsx">файл</a>
 
+    <script>
+        window.onload = function() {
+        document.getElementById("download_btn").click()
+        };
+    </script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->  
