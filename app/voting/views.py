@@ -19,9 +19,11 @@ def stats_login(request):
                 questions_list.append(question.question_text)
             answers_list= Список_ответов.objects.all()
             average_value = []
+            
+            
 
             for el in questions_list:
-                average_value.append(10)
+                average_value.append(random.randint(1, 5))
 
             value_and_question = []
             for i in range(len(average_value)):
