@@ -13,7 +13,7 @@ class Список_вопросов(models.Model):
         return self.question_text
  
 class Список_ответов(models.Model):
-    unique_key = models.IntegerField(unique=True)
+    unique_key = models.IntegerField()
     Вопрос = models.TextField()
     Оценка = models.IntegerField()
     Комментарий = models.TextField(blank=True)
