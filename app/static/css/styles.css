@@ -17,3 +17,8 @@ body {
       display: none;
     }
   }
+
+  a {
+    color: #6c757d;
+    outline: none;
+  }

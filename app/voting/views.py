@@ -1,4 +1,7 @@
 from django.shortcuts import render
+import os
+from django.conf import settings
+from django.http import HttpResponse, Http404
 from django.template.response import TemplateResponse
 from .models import Список_вопросов, Список_ПВИ, Дата_окончания_голосования, Список_ответов, Общие_комментарии
 import datetime
@@ -7,6 +10,66 @@ from django.http import HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError  
 import pandas as pd
 from .forms import PasswordForm
+from django.core.files.storage import FileSystemStorage
+
+
+def get_stats(request):
+    answers_list= Список_ответов.objects.all()
+    questions_list= Список_вопросов.objects.all()
+    pvi_list = Список_ПВИ.objects.all()
+    comments_list = Общие_комментарии.objects.all()
+
+    questions_dict = {
+        "Вопрос":[el.question_text for el in questions_list],
+        "Дата создания":[el.date for el in questions_list],
+            }
+    questions_table = pd.DataFrame(questions_dict)
+    
+    answers_dict = {
+        "unique_key":[el.unique_key for el in answers_list],
+        "Вопрос":[el.Вопрос for el in answers_list],
+        "Оценка":[el.Оценка for el in answers_list],
+        "Комментарий":[el.Комментарий for el in answers_list],
+        "Дата":[el.Дата for el in answers_list],
+        "ПВИ":[el.ПВИ for el in answers_list],
+        
+            }
+    answers_table = pd.DataFrame(answers_dict) 
+    pvi_dict = {
+        "Название_ПВИ":[el.Название_ПВИ for el in pvi_list],
+        "Местонахождение_ПВИ":[el.Местонахождение_ПВИ for el in pvi_list],
+            }
+    pvi_table = pd.DataFrame(pvi_dict)
+
+    comments_dict = {
+        "unique_key":[el.unique_key for el in comments_list],
+        "Пожелание":[el.Пожелание for el in comments_list],
+            }
+    comments_table = pd.DataFrame(comments_dict)
+
+    writer = pd.ExcelWriter('out.xlsx', engine = 'xlsxwriter')
+    questions_table.to_excel(writer, sheet_name = 'Вопросы')
+    answers_table.to_excel(writer, sheet_name = 'Ответы')
+    pvi_table.to_excel(writer, sheet_name = 'ПВИ')
+    comments_table.to_excel(writer, sheet_name = 'Комментарии')
+    writer.save()
+
+    writer = pd.ExcelWriter('mediafiles/out.xlsx', engine = 'xlsxwriter')
+    questions_table.to_excel(writer, sheet_name = 'Вопросы')
+    answers_table.to_excel(writer, sheet_name = 'Ответы')
+    pvi_table.to_excel(writer, sheet_name = 'ПВИ')
+    comments_table.to_excel(writer, sheet_name = 'Комментарии')
+    writer.save()
+    
+    file_path = os.path.join(settings.MEDIA_ROOT, 'out.xlsx')
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return render(request, "download.html")
+
+    return render(request, "download.html")
+
 
 
 def stats_login(request):
@@ -19,20 +82,20 @@ def stats_login(request):
                 questions_list.append(question.question_text)
             answers_list= Список_ответов.objects.all()
             average_value = []
-            
-            
-
-            for el in questions_list:
-                average_value.append(random.randint(1, 5))
-
-            value_and_question = []
-            for i in range(len(average_value)):
-                value_and_question.append([questions_list[i], average_value[i], i+1])
+        
+            for ques in questions_list:
+                temp = Список_ответов.objects.filter(Вопрос=ques)
+                av_val_tmp = 0
+                counter = 0
+                for el in temp:
+                    av_val_tmp += el.Оценка
+                    counter += 1
+                average_value.append([el.Вопрос, round(float(av_val_tmp/counter), 1)])
             
             data = {
                 "questions" : questions_list,
                 "answers" : answers_list,
-                "value_and_question" : value_and_question,
+                "value_and_question" : average_value,
             }
 
             return render(request, "stats.html", context=data)
@@ -50,6 +113,25 @@ def stats_login(request):
             }
         return render(request, 'stats_login.html', context=data)
 
+def vote_date_check(request, date):  # если фалс, то сменить дату окончания в куках
+    try:
+        old_date = request.COOKIES['end_date']
+        end_date = str(date[0])
+        num_end_day, num_end_mounth = end_date[8:10], end_date[5:7]
+        num_current_day, num_current_mounth, = old_date[0:2], old_date[3:5]                                                 
+        if num_current_mounth < num_end_mounth:
+            return [True, str(num_end_day) + '.' + str(num_end_mounth)]
+        elif num_current_mounth == num_end_mounth:
+            if num_current_day < num_end_day:
+                return [False, str(num_end_day) + '.' + str(num_end_mounth)]
+            else:
+                return [True, str(num_end_day) + '.' + str(num_end_mounth)]
+        else:
+            return [False, str(num_end_day) + '.' + str(num_end_mounth)]
+
+            
+    except:
+        return [True, None]
 
 def index(request):
     if request.method == "POST":
@@ -57,7 +139,11 @@ def index(request):
         #link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
-
+        date = Дата_окончания_голосования.objects.all()
+        tmp = vote_date_check(request, date)
+        upd_date = False
+        if not tmp[0]:
+            upd_date = True
         try:
             isVote = request.COOKIES['isVote']
 
@@ -66,30 +152,45 @@ def index(request):
                 "link" : link,
                 "text" : "Вы уже голосовали",
                 }
-                return render(request, "answer.html", context=data)
+                
+                response = HttpResponse(render(request, "answer.html", context=data))
+                if upd_date:
+                    response.set_cookie("end_date", tmp[1], max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
+                else:
+                    response.set_cookie("end_date", str(num_2_day)+"."+ str(num_2_mounth), max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
+                return response
         except:
             pass
 
 
-        date = Дата_окончания_голосования.objects.all()
         end_date = str(date[0])
         num_1_day, num_1_mounth, = vote_date[3:], vote_date[:2]
         num_2_day, num_2_mounth, = end_date[8:10], end_date[5:7]
 
         if num_1_mounth <= num_2_mounth:
-            if num_1_day <= num_2_day:
+            if num_1_day <= num_2_day and num_1_mounth == num_2_mounth:
+                status = "OK"
+            elif num_1_mounth < num_2_mounth:
                 status = "OK"
             else:
                 status = "NOT_OK"
         else:
                 status = "NOT_OK"
 
+
         if status == "NOT_OK":
             data = {
             "link" : link,
             "text" : "Данный опрос завершился " + end_date,
             }
-            return render(request, "answer.html", context=data)
+
+            response = HttpResponse(render(request, "answer.html", context=data))
+            if upd_date:
+                response.set_cookie("end_date", tmp[1], max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
+            else:
+                response.set_cookie("end_date", str(num_2_day)+"."+ str(num_2_mounth), max_age=60*60*24)  # утстановка в куки даты голосвания для проверки е изменения
+            return response
+
         else:
             d1 = datetime.datetime.strptime(str(num_1_day)+"."+ str(num_1_mounth) +".2020", "%d.%m.%Y") # vote day
             d2 = datetime.datetime.strptime(str(num_2_day)+"."+ str(num_2_mounth) +".2020", "%d.%m.%Y") # end day для расчета длительнсти куки
@@ -111,11 +212,11 @@ def index(request):
                 pass
             
             results = []
-            unique_id = random.randint(0, 200000)
+            unique_id = random.randint(0, 300000)
             try:
                 for i in range(len(answers_list)):
                     results.append([questions_list[i], answers_list[i], comment_list[i]])
-                    Список_ответов(Вопрос=questions_list[i], Оценка=answers_list[i], unique_key=unique_id, Комментарий=comment_list[i]).save()
+                    Список_ответов(Вопрос=questions_list[i], Оценка=answers_list[i], unique_key=unique_id, Комментарий=comment_list[i], ПВИ=str(request.POST['select_pvi'])).save()
             except:
                 pass
             
@@ -134,6 +235,10 @@ def index(request):
             response = HttpResponse(render(request, "answer.html", context=data))
             if days_expire > 0:
                 response.set_cookie("isVote", True, max_age=60*60*24*days_expire)
+                if upd_date:
+                    response.set_cookie("end_date", tmp[1], max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
+                else:
+                    response.set_cookie("end_date", str(num_2_day)+"."+ str(num_2_mounth), max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
             else:
                 response.set_cookie("isVote", True, max_age=60*60*10)
 

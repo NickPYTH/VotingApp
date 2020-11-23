@@ -41,9 +41,9 @@
                 <div class="input-group-prepend">
                     <button class="btn btn-outline-secondary" type="button">ПВИ</button>
                 </div>
-                <select class="custom-select" id="inputGroupSelect03" >
+                <select name="select_pvi" class="custom-select" id="inputGroupSelect03" >
                     {% for pv in PVI %}
-                        <option value="1">{{ pv }}</option>
+                        <option value="{{ pv }}">{{ pv }}</option>
                     {% endfor %}
                 </select>
                 </div>

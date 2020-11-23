@@ -13,11 +13,12 @@ class Список_вопросов(models.Model):
         return self.question_text
  
 class Список_ответов(models.Model):
-    unique_key = models.IntegerField(unique=True)
+    unique_key = models.IntegerField()
     Вопрос = models.TextField()
     Оценка = models.IntegerField()
     Комментарий = models.TextField(blank=True)
     Дата = models.DateField(auto_now=True)
+    ПВИ = models.CharField(max_length=30)
 
     def __str__(self):
         return str(self.unique_key) + " " + str(self.Дата) + " " +  str(self.Вопрос)
@@ -36,7 +37,7 @@ class Дата_окончания_голосования(models.Model):
         return str(self.Дата)
 
 class Общие_комментарии(models.Model):
-    unique_key = models.IntegerField(unique=True)
+    unique_key = models.IntegerField()
     Пожелание = models.TextField()
 
     def __str__(self):

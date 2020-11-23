@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name='Общие_комментарии',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('unique_key', models.IntegerField(unique=True)),
+                ('unique_key', models.IntegerField()),
                 ('Пожелание', models.TextField()),
             ],
         ),
