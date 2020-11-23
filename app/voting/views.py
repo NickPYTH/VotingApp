@@ -118,7 +118,8 @@ def vote_date_check(request, date):  # если фалс, то сменить д
         old_date = request.COOKIES['end_date']
         end_date = str(date[0])
         num_end_day, num_end_mounth = end_date[8:10], end_date[5:7]
-        num_current_day, num_current_mounth, = old_date[0:2], old_date[3:5]                                                 
+        num_current_day, num_current_mounth, = old_date[0:2], old_date[3:5]
+        print(num_current_day, num_current_mounth, num_end_day, num_end_mounth)                                                
         if num_current_mounth < num_end_mounth:
             return [True, str(num_end_day) + '.' + str(num_end_mounth)]
         elif num_current_mounth == num_end_mounth:
@@ -143,21 +144,23 @@ def index(request):
         tmp = vote_date_check(request, date)
         upd_date = False
         if not tmp[0]:
+            print('-----------------> Дата окончания голосования изменилась')
             upd_date = True
+        else:
+            print('-----------------> Дата окончания голосования НЕ изменилась')
+
         try:
             isVote = request.COOKIES['isVote']
-
-            if isVote:
+            if isVote and tmp[0]:
                 data = {
                 "link" : link,
                 "text" : "Вы уже голосовали",
                 }
-                
                 response = HttpResponse(render(request, "answer.html", context=data))
                 if upd_date:
-                    response.set_cookie("end_date", tmp[1], max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
+                    response.set_cookie("end_date", tmp[1], max_age=60*60*24*60)  # утстановка в куки даты голосвания для проверки е изменения
                 else:
-                    response.set_cookie("end_date", str(num_2_day)+"."+ str(num_2_mounth), max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
+                    response.set_cookie("end_date", tmp[1], max_age=60*60*24*60)  # утстановка в куки даты голосвания для проверки е изменения
                 return response
         except:
             pass
