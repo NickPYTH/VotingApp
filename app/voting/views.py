@@ -20,6 +20,7 @@ def get_stats(request):
     comments_list = Общие_комментарии.objects.all()
 
     questions_dict = {
+        "Номер_Вопроса" : [el+1 for el in range(len(questions_list))],
         "Вопрос":[el.question_text for el in questions_list],
         "Дата создания":[el.date for el in questions_list],
             }
@@ -97,19 +98,26 @@ def stats_login(request):
             pvi_list = [pvi.Название_ПВИ for pvi in pvi_query]
             
             out = []
+            ques_and_average = []
             for pvi in pvi_list:
-                print("------------------------------------------")
-                print(pvi)
                 ans_tmp = Список_ответов.objects.filter(ПВИ=pvi)
-                record = []
-                for rec in ans_tmp:
-                    print(ans_tmp)
-                
-            
+                average_temp = 0
+                if len(ans_tmp) > 0:
+                    for i in range(len(questions_list)):
+                        ans_tmp_ques = ans_tmp.filter(Вопрос=questions_list[i])
+                        for el in ans_tmp_ques:
+                            average_temp += el.Оценка
+                        if len(ans_tmp_ques) != 0:
+                            average_temp /= len(ans_tmp_ques)
+                        ques_and_average.append([questions_list[i], average_temp])
+                        average_temp = 0
+                    out.append([pvi, ques_and_average, random.randint(0, 10000)])
+                    ques_and_average = []
             data = {
                 "questions" : questions_list,
                 "answers" : answers_list,
                 "value_and_question" : average_value,
+                "out" : out,
             }
 
             return render(request, "stats.html", context=data)
