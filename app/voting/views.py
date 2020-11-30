@@ -85,12 +85,13 @@ def stats_login(request):
         
             for ques in questions_list:
                 temp = Список_ответов.objects.filter(Вопрос=ques)
-                av_val_tmp = 0
-                counter = 0
-                for el in temp:
-                    av_val_tmp += el.Оценка
-                    counter += 1
-                average_value.append([el.Вопрос, round(float(av_val_tmp/counter), 1)])
+                if len(temp) != 0:
+                    av_val_tmp = 0
+                    counter = 0
+                    for el in temp:
+                        av_val_tmp += el.Оценка
+                        counter += 1
+                    average_value.append([ques, round(float(av_val_tmp/counter), 1)])
             
             data = {
                 "questions" : questions_list,
@@ -136,7 +137,9 @@ def vote_date_check(request, date):  # если фалс, то сменить д
 
 def index(request):
     if request.method == "POST":
-        link = 'http://188.225.83.42:8000/'
+	
+        #link = 'http://188.225.83.42:80/'
+        link = 'http://anketa-pvi.ru'
         #link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
