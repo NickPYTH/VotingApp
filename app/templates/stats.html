@@ -24,7 +24,7 @@
         #Статистика
     </a>
     </nav>
-
+    
     <div style="margin-right: 0; margin-left: 0;" class = "row mb-5">
         <div class="col-lg-2"></div>
             <div class="col-lg-8 col-12">
@@ -32,17 +32,34 @@
                     <div style="display: flex; justify-content: center; margin-top: -25px;" class="card-body">
                         <div class="row mt-3">
                             <div class="col-12">
-                                <ul id="questions" class="list-group mb-4">
-                                    {% for el in value_and_question %}
-                                        <li class="list-group-item d-flex justify-content-between align-items-center text-left">
-                                            <span id = "{{ el.2 }}" name="skill">{{ el.0 }}  </span> 
-                                            <span id = "{{ el.2 }}_value" class="badge badge-primary badge-pill">{{ el.1 }}</span>
-                                        </li>
+                                <div id="accordion">
+                                    {% for pvi in out %}
+                                        <div class="card">
+                                        <div class="card-header" id="heading">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ pvi.2 }}" aria-expanded="true" aria-controls="collapse{{ pvi.2 }}">
+                                            {{ pvi.0 }}
+                                            </button>
+                                        </h5>
+                                        </div>
+                                        <div id="collapse{{ pvi.2 }}" class="collapse" aria-labelledby="heading{{ pvi.2 }}" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <ul id="questions" class="list-group mb-4">
+                                                {% for el in pvi.1 %}
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center text-left">
+                                                        <span name="skill">{{ el.0 }}  </span> 
+                                                        <span class="badge badge-primary badge-pill">{{ el.1 }}</span>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>       
+                                        </div>
+                                        </div>
+                                    </div>
                                     {% endfor %}
-                                </ul>     
+                                </div>  
                                 <form method="GET">
                                     {% csrf_token %}      
-                                    <button id="send" value="Send" type="submit" class="btn btn-outline-secondary"><a href="/download_stats">Скачать статистику</a></button>
+                                    <button id="send" value="Send" type="submit" class="btn btn-outline-secondary mt-4"><a href="/download_stats">Скачать статистику</a></button>
                                 </form>
                             </div>
                         </div>
@@ -52,28 +69,6 @@
         <div class="col-lg-2"></div>
         </div>
     </div>
-
-    <div style="margin-right: 0; margin-left: 0;" class="row mb-5">
-        <div class="col-2"></div>
-            <div class="col-8">
-                <canvas id="oilChart1"></canvas>
-            </div>
-        <div class="col-2"></div>
-    </div>
-
-    <div style="margin-right: 0; margin-left: 0;" class="row mb-5">
-        <div class="col-2"></div>
-            <div class="col-8">
-                <canvas id="oilCanvas_polar"></canvas>
-            </div>
-        <div class="col-2"></div>
-    </div>
-
-
-    {{ answers_list }}
-    {{ questions_list }}
-    {{ pvi_list }}
-    {{ comments_list }}
 
     <script>
     

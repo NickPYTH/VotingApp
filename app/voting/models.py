@@ -6,6 +6,7 @@ from django.contrib import admin
 
 
 class Список_вопросов(models.Model):
+    num = models.AutoField(primary_key=True)
     question_text = models.TextField()
     date = models.DateField()
 
@@ -22,6 +23,7 @@ class Список_ответов(models.Model):
 
     def __str__(self):
         return str(self.unique_key) + " " + str(self.Дата) + " " +  str(self.Вопрос)
+        
 
 class Список_ПВИ(models.Model):
     Название_ПВИ = models.CharField(max_length=200)
