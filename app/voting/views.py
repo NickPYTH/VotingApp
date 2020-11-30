@@ -92,6 +92,19 @@ def stats_login(request):
                         av_val_tmp += el.Оценка
                         counter += 1
                     average_value.append([ques, round(float(av_val_tmp/counter), 1)])
+
+            pvi_query = Список_ПВИ.objects.all()
+            pvi_list = [pvi.Название_ПВИ for pvi in pvi_query]
+            
+            out = []
+            for pvi in pvi_list:
+                print("------------------------------------------")
+                print(pvi)
+                ans_tmp = Список_ответов.objects.filter(ПВИ=pvi)
+                record = []
+                for rec in ans_tmp:
+                    print(ans_tmp)
+                
             
             data = {
                 "questions" : questions_list,
@@ -139,8 +152,8 @@ def index(request):
     if request.method == "POST":
 	
         #link = 'http://188.225.83.42:80/'
-        link = 'http://anketa-pvi.ru'
-        #link = 'http://127.0.0.1:8000/'
+        #link = 'http://anketa-pvi.ru'
+        link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
         date = Дата_окончания_голосования.objects.all()
