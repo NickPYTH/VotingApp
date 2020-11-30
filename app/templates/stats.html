@@ -30,13 +30,13 @@
             <div class="col-lg-8 col-12">
                 <div class="card text-center m-2">
                     <div style="display: flex; justify-content: center; margin-top: -25px;" class="card-body">
-                        <div class="row mt-3">
-                            <div class="col-12">
+                        <div style="overflow: hidden;" class="row mt-3">
+                            <div class="col-12 ">
                                 <div id="accordion">
                                     {% for pvi in out %}
                                         <div class="card">
                                         <div class="card-header" id="heading">
-                                        <h5 class="mb-0">
+                                        <h5 class="mb-0 text-truncate">
                                             <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ pvi.2 }}" aria-expanded="true" aria-controls="collapse{{ pvi.2 }}">
                                             {{ pvi.0 }}
                                             </button>
