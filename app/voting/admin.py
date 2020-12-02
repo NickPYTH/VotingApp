@@ -8,7 +8,7 @@ class Список_вопросовAdmin(admin.ModelAdmin):
 
 @admin.register(Список_ответов)
 class Список_ответовAdmin(admin.ModelAdmin):
-    list_display = ("unique_key", "Вопрос" ,"ПВИ", "Дата", "Оценка", )
+    list_display = ("unique_key", "Вопрос" ,"ПВИ", "Дата", "Оценка", "Комментарий")
     list_filter = ("ПВИ", "Вопрос" , "Оценка", "Дата")
 
 @admin.register(Список_ПВИ)
