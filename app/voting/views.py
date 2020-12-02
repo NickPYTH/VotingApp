@@ -109,7 +109,7 @@ def stats_login(request):
                             average_temp += el.Оценка
                         if len(ans_tmp_ques) != 0:
                             average_temp /= len(ans_tmp_ques)
-                        ques_and_average.append([questions_list[i], average_temp])
+                        ques_and_average.append([questions_list[i], round(float(average_temp), 1)])
                         average_temp = 0
                     out.append([pvi, ques_and_average, random.randint(0, 10000)])
                     ques_and_average = []
