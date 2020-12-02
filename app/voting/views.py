@@ -191,9 +191,9 @@ def index(request):
 
 
         end_date = str(date[0])
-        num_1_day, num_1_mounth, = vote_date[3:], vote_date[:2]
-        num_2_day, num_2_mounth, = end_date[8:10], end_date[5:7]
-
+        num_1_day, num_1_mounth, = int(vote_date[3:]), int(vote_date[:2])
+        num_2_day, num_2_mounth, = int(end_date[8:10]), int(end_date[5:7])
+        
         if num_1_mounth <= num_2_mounth:
             if num_1_day <= num_2_day and num_1_mounth == num_2_mounth:
                 status = "OK"
