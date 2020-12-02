@@ -160,8 +160,8 @@ def index(request):
     if request.method == "POST":
 	
         #link = 'http://188.225.83.42:80/'
-        #link = 'http://anketa-pvi.ru'
-        link = 'http://127.0.0.1:8000/'
+        link = 'http://anketa-pvi.ru'
+        #link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
         date = Дата_окончания_голосования.objects.all()
@@ -213,6 +213,9 @@ def index(request):
 
             response = HttpResponse(render(request, "answer.html", context=data))
             if upd_date:
+                d1 = datetime.datetime.strptime(str(num_1_day)+"."+ str(num_1_mounth) +".2020", "%d.%m.%Y") # vote day
+                d2 = datetime.datetime.strptime(str(num_2_day)+"."+ str(num_2_mounth) +".2020", "%d.%m.%Y") # end of vote day
+                days_expire = (d2-d1).days
                 response.set_cookie("end_date", tmp[1], max_age=60*60*24*days_expire)  # утстановка в куки даты голосвания для проверки е изменения
             else:
                 response.set_cookie("end_date", str(num_2_day)+"."+ str(num_2_mounth), max_age=60*60*24)  # утстановка в куки даты голосвания для проверки е изменения

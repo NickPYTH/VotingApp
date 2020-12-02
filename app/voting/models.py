@@ -6,7 +6,7 @@ from django.contrib import admin
 
 
 class Список_вопросов(models.Model):
-    num = models.AutoField(primary_key=True)
+    #num = models.AutoField(primary_key=True)
     question_text = models.TextField()
     date = models.DateField()
 
