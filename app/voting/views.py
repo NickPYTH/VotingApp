@@ -12,7 +12,52 @@ import pandas as pd
 from .forms import PasswordForm
 from django.core.files.storage import FileSystemStorage
 
+def users_stats(request):
+    questions_query = Список_вопросов.objects.all()
+    questions_list = []
+    for question in questions_query:
+        questions_list.append(question.question_text)
+    answers_list= Список_ответов.objects.all()
+    average_value = []
+        
+    for ques in questions_list:
+        temp = Список_ответов.objects.filter(Вопрос=ques)
+        if len(temp) != 0:
+            av_val_tmp = 0
+            counter = 0
+            for el in temp:
+                av_val_tmp += el.Оценка
+                counter += 1
+            average_value.append([ques, round(float(av_val_tmp/counter), 1)])
 
+    pvi_query = Список_ПВИ.objects.all()
+    pvi_list = [pvi.Название_ПВИ for pvi in pvi_query]
+            
+    out = []
+    ques_and_average = []
+    for pvi in pvi_list:
+        ans_tmp = Список_ответов.objects.filter(ПВИ=pvi)
+        average_temp = 0
+        if len(ans_tmp) > 0:
+            for i in range(len(questions_list)):
+                ans_tmp_ques = ans_tmp.filter(Вопрос=questions_list[i])
+                for el in ans_tmp_ques:
+                    average_temp += el.Оценка
+                if len(ans_tmp_ques) != 0:
+                    average_temp /= len(ans_tmp_ques)
+                ques_and_average.append([questions_list[i], round(float(average_temp), 1)])
+                average_temp = 0
+            out.append([pvi, ques_and_average, random.randint(0, 10000)])
+            ques_and_average = []
+    data = {
+        "questions" : questions_list,
+        "answers" : answers_list,
+        "value_and_question" : average_value,
+        "out" : out,
+        'link' : settings.INDEX_LINK,  
+    }
+
+    return render(request, "users_stats.html", context=data)
 
 def get_stats(request):
     answers_list= Список_ответов.objects.all()
@@ -72,9 +117,7 @@ def get_stats(request):
 
     return render(request, "download.html")
 
-
-
-def stats_login(request):
+def admin_stats(request):
     form = PasswordForm(request.POST)
     if form.is_valid():
         if request.POST['password'] == "Qwerty2":  # PASSWORD KEK TO DO
@@ -122,13 +165,13 @@ def stats_login(request):
                 'link' : settings.INDEX_LINK,  
             }
 
-            return render(request, "stats.html", context=data)
+            return render(request, "admin_stats.html", context=data)
         else:
             data = {
                 "result" : False,
                 'form': form,
             }
-            return render(request, "stats_login.html", context=data)
+            return render(request, "auth_admin_stats.html", context=data)
     else:
         form = PasswordForm()
         data = {
@@ -136,7 +179,7 @@ def stats_login(request):
                 'form' : form,
                 'link' : settings.INDEX_LINK,  
             }
-        return render(request, 'stats_login.html', context=data)
+        return render(request, 'auth_admin_stats.html', context=data)
 
 def vote_date_check(request, date):  # если фалс, то сменить дату окончания в куках
     try:

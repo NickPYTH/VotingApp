@@ -17,21 +17,24 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ link }}">
+  {% block nav%}
+  <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ link }}admin_stats">
             <img src="{% static "images/vote.svg" %}" width="40" height="40" alt="Logo">
             {% block headerName %}
               <span class="mt-2"> On-line анкетирование </span>
             {% endblock headerName %}
         </a>
         {% block headerStat %}
-          <a class="navbar-brand" href="{{ link }}stats_login">
+          <a class="navbar-brand" href="{{ link }}users_stats">
               <img src="{% static "images/stats.svg" %}" width="35" height="35" alt="Stats">
               Статистика
           </a> 
         {% endblock headerStat %}
         
     </nav>
+  {% endblock nav %}
+    
 
     {% block content%}{% endblock content %}
  

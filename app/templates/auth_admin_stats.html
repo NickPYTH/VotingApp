@@ -1,11 +1,18 @@
 {% extends "base.html" %}
-
-{% block headerName %}
-  #Статистика
-{% endblock headerName %}
-
-{% block headerStat %}
-{% endblock headerStat %}
+{% load static %}
+{% block nav%}
+  <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="">
+            <img src="{% static "images/vote.svg" %}" width="40" height="40" alt="Logo">
+            {% block headerName %}
+              <span class="mt-2"> Вход </span>
+            {% endblock headerName %}
+        </a>
+        {% block headerStat %}
+        {% endblock headerStat %}
+        
+    </nav>
+{% endblock nav %}
 
 {% block content %}
     <div class="row mt-5">

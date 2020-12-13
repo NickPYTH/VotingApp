@@ -4,12 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from upload.views import image_upload
-from voting.views import index, stats_login, get_stats
+from voting.views import index, get_stats, users_stats, admin_stats
 
 urlpatterns = [
     path("", index, name="main"),
     path("admin/", admin.site.urls),
-    path("stats_login/", stats_login, name="stats"),
+    path("users_stats/", users_stats, name="users_stats"),
+    path("admin_stats/", admin_stats, name="admin_stats"),
     path("download_stats/", get_stats, name="download"),
 ]
 
