@@ -50,9 +50,9 @@
                                 </div>  
                                 <form method="GET">
                                     {% csrf_token %}      
-                                    <button id="send" value="Send" type="submit" class="btn btn-outline-secondary mt-4"><a style="text-decoration: none !important;" href="/download_stats">Скачать статистику</a></button>
-                                </form>
-                                <button class="btn btn-outline-secondary mt-4"><a style="text-decoration: none !important;" href="{{ link }}admin">Подробная статистика</a></button>
+                                        <a id="send" value="Send" type="submit" class="btn btn-outline-primary mt-2" role="button" href="/download_stats">Скачать статистику</a>
+                                </form> 
+                                <a class="btn btn-outline-primary mt-2" role="button" href="{{ link }}admin">Подробная статистика</a>
                             </div>
                         </div>
                     </div>

@@ -322,11 +322,12 @@ def index(request):
 
         questions_list = Список_вопросов.objects.all()
         PVI_list = Список_ПВИ.objects.all()
-
+        end_date = Дата_окончания_голосования.objects.all()
         data = {
             "PVI" : PVI_list,
             "questions_list" : questions_list,
-            "current_date" : now.strftime("%d-%m-%Y"),
+            "current_date" : now.strftime("%Y-%m-%d"),
+            "end_date" : end_date[0],
 
         }
 
