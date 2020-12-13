@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends "base.html" %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% block headerName %}
+  #Статистика
+{% endblock headerName %}
 
-    <!-- My styles -->
-    <link rel="stylesheet" href="{% static "css/styles.css" %}" /> 
+{% block headerStat %}
+{% endblock headerStat %}
 
-    <title>Статистика</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-
-  </head>
-  <body>
-    <!-- Image and text -->
-    <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">
-        <img src="{% static "images/vote.svg" %}" width="40" height="40" class="d-inline-block align-top" alt="">
-        #Статистика
-    </a>
-    </nav>
-    
+{% block content %}
     <div style="margin-right: 0; margin-left: 0;" class = "row mb-5">
         <div class="col-lg-2"></div>
             <div class="col-lg-8 col-12">
@@ -53,14 +36,15 @@
                                                 {% endfor %}
                                             </ul>       
                                         </div>
-                                        </div>
+                                        </div>  
                                     </div>
                                     {% endfor %}
                                 </div>  
                                 <form method="GET">
                                     {% csrf_token %}      
-                                    <button id="send" value="Send" type="submit" class="btn btn-outline-secondary mt-4"><a href="/download_stats">Скачать статистику</a></button>
+                                    <button id="send" value="Send" type="submit" class="btn btn-outline-secondary mt-4"><a style="text-decoration: none !important;" href="/download_stats">Скачать статистику</a></button>
                                 </form>
+                                <button class="btn btn-outline-secondary mt-4"><a style="text-decoration: none !important;" href="{{ link }}admin">Подробная статистика</a></button>
                             </div>
                         </div>
                     </div>
@@ -157,13 +141,4 @@
         });
         
     </script>
-
-        
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->  
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
-</html>
+{% endblock content %}  

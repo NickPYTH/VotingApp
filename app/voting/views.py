@@ -13,6 +13,7 @@ from .forms import PasswordForm
 from django.core.files.storage import FileSystemStorage
 
 
+
 def get_stats(request):
     answers_list= Список_ответов.objects.all()
     questions_list= Список_вопросов.objects.all()
@@ -118,6 +119,7 @@ def stats_login(request):
                 "answers" : answers_list,
                 "value_and_question" : average_value,
                 "out" : out,
+                'link' : settings.INDEX_LINK,  
             }
 
             return render(request, "stats.html", context=data)
@@ -131,7 +133,8 @@ def stats_login(request):
         form = PasswordForm()
         data = {
                 "result" : True,
-                'form': form,
+                'form' : form,
+                'link' : settings.INDEX_LINK,  
             }
         return render(request, 'stats_login.html', context=data)
 
@@ -158,26 +161,23 @@ def vote_date_check(request, date):  # если фалс, то сменить д
 
 def index(request):
     if request.method == "POST":
-	
-        #link = 'http://188.225.83.42:80/'
-        link = 'http://anketa-pvi.ru'
-        #link = 'http://127.0.0.1:8000/'
         vote_date = request.COOKIES['vote_date']
 
         date = Дата_окончания_голосования.objects.all()
         tmp = vote_date_check(request, date)
         upd_date = False
         if not tmp[0]:
-            print('-----------------> Дата окончания голосования изменилась')
+            #print('-----------------> Дата окончания голосования изменилась')
             upd_date = True
         else:
-            print('-----------------> Дата окончания голосования НЕ изменилась')
+            #print('-----------------> Дата окончания голосования НЕ изменилась')
+            pass
 
         try:
             isVote = request.COOKIES['isVote']
             if isVote and tmp[0]:
                 data = {
-                "link" : link,
+                "link" : settings.INDEX_LINK,
                 "text" : "Вы уже голосовали",
                 }
                 response = HttpResponse(render(request, "answer.html", context=data))
@@ -207,7 +207,7 @@ def index(request):
 
         if status == "NOT_OK":
             data = {
-            "link" : link,
+            "link" : settings.INDEX_LINK,
             "text" : "Данный опрос завершился " + end_date,
             }
 
@@ -253,7 +253,7 @@ def index(request):
             if str(request.POST['wishes_text']) != '': Общие_комментарии(unique_key=unique_id, Пожелание=str(request.POST['wishes_text'])).save()
 
             data = {
-                "link" : link,
+                "link" : settings.INDEX_LINK,
                 "days_expire" : "До конца опроса осталось " +str(days_expire)+ " суток",
                 "date" : num_2_mounth,
                 "a" : results,
