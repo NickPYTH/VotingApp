@@ -6,12 +6,16 @@ from django.conf.urls.static import static
 from upload.views import image_upload
 from voting.views import index, get_stats, users_stats, admin_stats
 
+from reviews.views import create_review
+
 urlpatterns = [
     path("", index, name="main"),
     path("admin/", admin.site.urls),
     path("users_stats/", users_stats, name="users_stats"),
     path("admin_stats/", admin_stats, name="admin_stats"),
     path("download_stats/", get_stats, name="download"),
+
+    path("reviews/", create_review, name="reviews"),
 ]
 
 if bool(settings.DEBUG):

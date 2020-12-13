@@ -1,0 +1,60 @@
+{% extends "../base.html" %}
+{% load static %}    
+{% block nav%}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-end">
+   <a class="navbar-brand" href="">
+   <img src="{% static "images/reviews.svg" %}" width="40" height="40" alt="Logo">
+   {% block headerName %}
+   <span class="mt-2">Отзывы</span>
+   {% endblock headerName %}
+   </a>
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+   <span class="navbar-toggler-icon"></span>
+   </button>
+   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+         {% block headerStat %}
+         <a class="navbar-brand" href="{{ link }}../">
+         <img src="{% static "images/vote.svg" %}" width="35" height="35" alt="Stats">
+         Анкетирование
+         </a>
+         <a class="navbar-brand" href="{{ link }}../users_stats">
+         <img src="{% static "images/stats.svg" %}" width="35" height="35" alt="Stats">
+         Статистика
+         </a> 
+         {% endblock headerStat %}
+      </form>
+   </div>
+</nav>
+{% endblock nav %}
+{% block content %}
+<div style="margin-right: 0; margin-left: 0;" class="row">
+   <div class="col-md-2"></div>
+   <div class="col-md-8">
+      <form method="POST">
+         {% csrf_token %}
+         <div class="card text-center m-3">
+            <div class="card-header">
+               Отзывы и предложения
+            </div>
+            <div class="card-body">
+               <div class="form-group">
+                  <label for="exampleFormControlInput1">Ваша электронная почта для обратной связи</label>
+                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+               </div>
+               <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Ваш отзыв или рекомендация</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+               </div>
+               <div class="form-group">
+                  <label for="exampleFormControlFile1">Можете прикрепить до 10 фотографий</label>
+                  <input type="file" class="form-control-file" id="exampleFormControlFile1">
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>
+{% endblock content %}
