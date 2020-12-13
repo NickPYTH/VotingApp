@@ -29,9 +29,9 @@ DEBUG = True
 # For example: 'DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]'
 #ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
-#INDEX_LINK = 'http://anketa-pvi.ru'
+INDEX_LINK = 'http://anketa-pvi.ru'
 
-INDEX_LINK = 'http://127.0.0.1:8000/'
+#INDEX_LINK = 'http://127.0.0.1:8000/'
 
 ALLOWED_HOSTS = ['188.225.83.42', 'anketa-pvi.ru', 'anketa-pvi', '127.0.0.1']
 
