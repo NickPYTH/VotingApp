@@ -6,12 +6,15 @@ from django.contrib import admin
 
 
 class Список_вопросов(models.Model):
-    #num = models.AutoField(primary_key=True)
     question_text = models.TextField()
     date = models.DateField()
 
     def __str__(self):
         return self.question_text
+
+    class Meta:
+        verbose_name = "Список_вопросов"
+        verbose_name_plural = "Список_вопросов"
  
 class Список_ответов(models.Model):
     unique_key = models.IntegerField()
@@ -23,6 +26,10 @@ class Список_ответов(models.Model):
 
     def __str__(self):
         return str(self.unique_key) + " " + str(self.Дата) + " " +  str(self.Вопрос)
+
+    class Meta:
+        verbose_name = "Список_ответов"
+        verbose_name_plural = "Список_ответов"
         
 
 class Список_ПВИ(models.Model):
@@ -32,11 +39,19 @@ class Список_ПВИ(models.Model):
     def __str__(self):
         return str(self.Название_ПВИ)
 
+    class Meta:
+        verbose_name = "Список_ПВИ"
+        verbose_name_plural = "Список_ПВИ"
+
 class Дата_окончания_голосования(models.Model):
     Дата = models.DateField()
 
     def __str__(self):
         return str(self.Дата)
+
+    class Meta:
+        verbose_name = "Дата_окончания_голосования"
+        verbose_name_plural = "Дата_окончания_голосования"
 
 class Общие_комментарии(models.Model):
     unique_key = models.IntegerField()
@@ -44,3 +59,7 @@ class Общие_комментарии(models.Model):
 
     def __str__(self):
         return str(self.unique_key)
+
+    class Meta:
+        verbose_name = "Общие_комментарии"
+        verbose_name_plural = "Общие_комментарии"

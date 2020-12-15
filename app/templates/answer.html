@@ -1,16 +1,15 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <div style="display: flex; justify-content: center;">
-      <div class="card mt-5" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Спасибо, что проголосовали!</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ text }} {{ days_expire }}</h6>
-          <p class="card-text">Данное тестирование сделано для контроля качества ПВИ</p>
-          <p class="lead">
+<div style="display: flex; justify-content: center;">
+   <div class="card mt-5" style="width: 18rem;">
+      <div class="card-body">
+         <h5 class="card-title">Спасибо, что проголосовали!</h5>
+         <h6 class="card-subtitle mb-2 text-muted">{{ text }} {{ days_expire }}</h6>
+         <p class="card-text">Данное тестирование сделано для контроля качества ПВИ</p>
+         <p class="lead">
             <a class="btn btn-primary btn-lg" href="{{ link }}" role="button">Назад</a>
-        </p>
-        </div>
-    </div>
-  </div>
-  {% endblock content %}
+         </p>
+      </div>
+   </div>
+</div>
+{% endblock content %}

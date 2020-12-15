@@ -1,46 +1,42 @@
 {% extends "base.html" %}
 {% load static %}
 {% block nav%}
-  <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="">
-            <img src="{% static "images/vote.svg" %}" width="40" height="40" alt="Logo">
-            {% block headerName %}
-              <span class="mt-2"> Вход </span>
-            {% endblock headerName %}
-        </a>
-        {% block headerStat %}
-        {% endblock headerStat %}
-        
-    </nav>
+<nav class="navbar navbar-dark bg-dark">
+   <a class="navbar-brand" href="">
+   <img src="{% static "images/vote.svg" %}" width="40" height="40" alt="Logo">
+   {% block headerName %}
+   <span class="mt-2"> Вход </span>
+   {% endblock headerName %}
+   </a>
+   {% block headerStat %}
+   {% endblock headerStat %}
+</nav>
 {% endblock nav %}
-
 {% block content %}
-    <div class="row mt-5">
-      <div class="col-lg-2"></div>
-      <div style="display: flex; justify-content: center;" class="col-lg-8 col-12">
-        <form class="form-inline" style="display: flex; justify-content: center;" method="POST">
-          {% csrf_token %}
-          <div class="form-group">
+<div class="row mt-5">
+   <div class="col-lg-2"></div>
+   <div style="display: flex; justify-content: center;" class="col-lg-8 col-12">
+      <form class="form-inline" style="display: flex; justify-content: center;" method="POST">
+         {% csrf_token %}
+         <div class="form-group">
             <label for="staticEmail2" class="sr-only">Email</label>
             <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Введите пароль">
-          </div>
-          <div class="form-group d-flex flex-column flex-lg-row">
+         </div>
+         <div class="form-group d-flex flex-column flex-lg-row">
             <label for="inputPassword2" class="sr-only">Пароль</label>
             {{form.password}}
-          <button id="send" value="Send" type="submit" class="btn btn-outline-primary mt-2 mb-2 ml-lg-2 mr-lg-2" role="button">Войти</button>
-          <a class="btn btn-outline-primary" role="button" href="{{ link }}">Назад</a>
-          </div>
-        </form>
-        
+            <button id="send" value="Send" type="submit" class="btn btn-outline-primary mt-2 mb-2 ml-lg-2 mr-lg-2" role="button">Войти</button>
+            <a class="btn btn-outline-primary" role="button" href="{{ link }}">Назад</a>
+         </div>
+      </form>
+   </div>
+   <div  class="col-lg-2"></div>
+   <div style="display: flex; justify-content: center; width:100%">
+      {% if not result %}
+      <div class="alert alert-danger mt-2" role="alert">
+         Неверный пароль
       </div>
-      <div  class="col-lg-2"></div>
-      <div style="display: flex; justify-content: center; width:100%">
-        {% if not result %}
-            <div class="alert alert-danger mt-2" role="alert">
-              Неверный пароль
-            </div>
-        {% endif %}
-      </div>
-      
-    </div>
-{% endblock content %}  
+      {% endif %}
+   </div>
+</div>
+{% endblock content %}

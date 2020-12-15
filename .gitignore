@@ -1,6 +1,8 @@
 *.pyc
+*.sqlite3
 __pycache
 .DS_Store
 .env.dev
 .env.prod
 .env.prod.db
+

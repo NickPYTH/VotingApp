@@ -1,152 +1,147 @@
 {% extends "base.html" %}
 {% load static %}
 {% block nav%}
-  <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ link }}">
-            <img src="{% static "images/vote.svg" %}" width="40" height="40" alt="Logo">
-            {% block headerName %}
-              <span class="mt-2">Вернуться к голосованию</span>
-            {% endblock headerName %}
-        </a>
-
-        {% block headerStat %}
-        {% endblock headerStat %}
-        
-    </nav>
+<nav class="navbar navbar-dark bg-dark">
+   <a class="navbar-brand" href="{{ link }}">
+   <img src="{% static "images/vote.svg" %}" width="40" height="40" alt="Logo">
+   {% block headerName %}
+   <span class="mt-2">Вернуться к голосованию</span>
+   {% endblock headerName %}
+   </a>
+   {% block headerStat %}
+   {% endblock headerStat %}
+</nav>
 {% endblock nav %}
-
 {% block content %}
-    <div style="margin-right: 0; margin-left: 0;" class = "row mb-5">
-        <div class="col-lg-2"></div>
-            <div class="col-lg-8 col-12">
-                <div class="card text-center m-2">
-                    <div style="display: flex; justify-content: center; margin-top: -25px;" class="card-body">
-                        <div style="overflow: hidden;" class="row mt-3">
-                            <div class="col-12 ">
-                                <div id="accordion">
-                                    {% for pvi in out %}
-                                        <div class="card">
-                                        <div class="card-header" id="heading">
-                                        <h5 class="mb-0 text-truncate">
-                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ pvi.2 }}" aria-expanded="true" aria-controls="collapse{{ pvi.2 }}">
-                                            {{ pvi.0 }}
-                                            </button>
-                                        </h5>
-                                        </div>
-                                        <div id="collapse{{ pvi.2 }}" class="collapse" aria-labelledby="heading{{ pvi.2 }}" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <ul id="questions" class="list-group mb-4">
-                                                {% for el in pvi.1 %}
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center text-left">
-                                                        <span name="skill">{{ el.0 }}  </span> 
-                                                        <span class="badge badge-primary badge-pill">{{ el.1 }}</span>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>       
-                                        </div>
-                                        </div>  
-                                    </div>
-                                    {% endfor %}
-                                </div>  
-                                <form method="GET">
-                                    {% csrf_token %}      
-                                        <a id="send" value="Send" type="submit" class="btn btn-outline-primary mt-2" role="button" href="/download_stats">Скачать статистику</a>
-                                </form> 
-                                <a class="btn btn-outline-primary mt-2" role="button" href="{{ link }}admin">Администрирование</a>
-                            </div>
+<div style="margin-right: 0; margin-left: 0;" class = "row mb-5">
+   <div class="col-lg-2"></div>
+   <div class="col-lg-8 col-12">
+      <div class="card text-center m-2">
+         <div style="display: flex; justify-content: center; margin-top: -25px;" class="card-body">
+            <div style="overflow: hidden;" class="row mt-3">
+               <div class="col-12 ">
+                  <div id="accordion">
+                     {% for pvi in out %}
+                     <div class="card">
+                        <div class="card-header" id="heading">
+                           <h5 class="mb-0 text-truncate">
+                              <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ pvi.2 }}" aria-expanded="true" aria-controls="collapse{{ pvi.2 }}">
+                              {{ pvi.0 }}
+                              </button>
+                           </h5>
                         </div>
-                    </div>
-                </div>
+                        <div id="collapse{{ pvi.2 }}" class="collapse" aria-labelledby="heading{{ pvi.2 }}" data-parent="#accordion">
+                           <div class="card-body">
+                              <ul id="questions" class="list-group mb-4">
+                                 {% for el in pvi.1 %}
+                                 <li class="list-group-item d-flex justify-content-between align-items-center text-left">
+                                    <span name="skill">{{ el.0 }}  </span> 
+                                    <span class="badge badge-primary badge-pill">{{ el.1 }}</span>
+                                 </li>
+                                 {% endfor %}
+                              </ul>
+                           </div>
+                        </div>
+                     </div>
+                     {% endfor %}
+                  </div>
+                  <form method="GET">
+                     {% csrf_token %}      
+                     <a id="send" value="Send" type="submit" class="btn btn-outline-primary mt-2" role="button" href="/download_stats">Скачать статистику</a>
+                  </form>
+                  <a class="btn btn-outline-primary mt-2" role="button" href="{{ link }}admin">Администрирование</a>
+               </div>
             </div>
-        <div class="col-lg-2"></div>
-        </div>
-    </div>
-
-    <script>
-    
-        var oilCanvas = document.getElementById("oilChart1");
-        var oilCanvas_polar = document.getElementById("oilCanvas_polar");
-        lst = [];
-        lst_val = [];
- 
-        var obj_list = document.querySelector('#questions'),
-            objs_list_li = obj_list.querySelectorAll('li');
-
-        // Перебираем все li в #list
-        for(var i = 0; i < objs_list_li.length; i++){
-        // Получаем список ul находящиеся в li
-        var objs_li_ul = objs_list_li[i].querySelectorAll('ul');
-            // Если li имеет ul, то применяем к заголовку стиль
-        };
-
-        var list = obj_list.querySelectorAll('li');
-        var list_len = list.length;
-        var res = [];
-        var res_points = [];
-        for(var i = 0; i < list_len; i++){
-            lst[i] = list[i].querySelectorAll('span')[0].textContent;
-            lst_val[i] = list[i].querySelectorAll('span')[1].textContent;
-            res.push(lst[i]);
-            res_points.push(lst_val[i]);
-        };
-
-
-
-        Chart.defaults.global.defaultFontFamily = "Comfortaa";
-        Chart.defaults.global.defaultFontSize = 18;
-        
-        
-        
-        var oilData = {
-            labels: res,
-            datasets: [
-                {
-                    data: res_points,
-                    backgroundColor: [
-                        "#1E90FF",
-                        "#696969",
-                        "#84FF63",
-                        "#8463FF",
-                        "#6384FF",
-                        '#36006d',
-                        '#e7ff0c',
-                        '#9500a2',
-                        '#ffb8ff',
-                        '#e2ff7e',
-                    ],
-                    
-
-                    borderWidth: 6
-                }]
-        };
-
-        var pieChart = new Chart(oilCanvas, {
-        type: 'doughnut',
-        data: oilData,
-        options: {
-                title: {
-                    display: true,
-                    text: 'График 1'
-                },
-                legend: {
-                    display: false,
-                }
-            },
-        });
-
-        var polarChart = new Chart(oilCanvas_polar, {
-        type: 'polarArea',
-        data: oilData,
-        options: {
-                title: {
-                    display: true,
-                    text: 'График 2'
-                },
-                legend: {
-                    display: false,
-                }
-            },
-        });
-        
-    </script>
-{% endblock content %}  
+         </div>
+      </div>
+   </div>
+   <div class="col-lg-2"></div>
+</div>
+</div>
+<script>
+   var oilCanvas = document.getElementById("oilChart1");
+   var oilCanvas_polar = document.getElementById("oilCanvas_polar");
+   lst = [];
+   lst_val = [];
+   
+   var obj_list = document.querySelector('#questions'),
+       objs_list_li = obj_list.querySelectorAll('li');
+   
+   // Перебираем все li в #list
+   for(var i = 0; i < objs_list_li.length; i++){
+   // Получаем список ul находящиеся в li
+   var objs_li_ul = objs_list_li[i].querySelectorAll('ul');
+       // Если li имеет ul, то применяем к заголовку стиль
+   };
+   
+   var list = obj_list.querySelectorAll('li');
+   var list_len = list.length;
+   var res = [];
+   var res_points = [];
+   for(var i = 0; i < list_len; i++){
+       lst[i] = list[i].querySelectorAll('span')[0].textContent;
+       lst_val[i] = list[i].querySelectorAll('span')[1].textContent;
+       res.push(lst[i]);
+       res_points.push(lst_val[i]);
+   };
+   
+   
+   
+   Chart.defaults.global.defaultFontFamily = "Comfortaa";
+   Chart.defaults.global.defaultFontSize = 18;
+   
+   
+   
+   var oilData = {
+       labels: res,
+       datasets: [
+           {
+               data: res_points,
+               backgroundColor: [
+                   "#1E90FF",
+                   "#696969",
+                   "#84FF63",
+                   "#8463FF",
+                   "#6384FF",
+                   '#36006d',
+                   '#e7ff0c',
+                   '#9500a2',
+                   '#ffb8ff',
+                   '#e2ff7e',
+               ],
+               
+   
+               borderWidth: 6
+           }]
+   };
+   
+   var pieChart = new Chart(oilCanvas, {
+   type: 'doughnut',
+   data: oilData,
+   options: {
+           title: {
+               display: true,
+               text: 'График 1'
+           },
+           legend: {
+               display: false,
+           }
+       },
+   });
+   
+   var polarChart = new Chart(oilCanvas_polar, {
+   type: 'polarArea',
+   data: oilData,
+   options: {
+           title: {
+               display: true,
+               text: 'График 2'
+           },
+           legend: {
+               display: false,
+           }
+       },
+   });
+   
+</script>
+{% endblock content %}
