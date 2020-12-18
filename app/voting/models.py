@@ -13,8 +13,8 @@ class Список_вопросов(models.Model):
         return self.question_text
 
     class Meta:
-        verbose_name = "Список_вопросов"
-        verbose_name_plural = "Список_вопросов"
+        verbose_name = "Таблица вопросов"
+        verbose_name_plural = "Таблица вопросов"
  
 class Список_ответов(models.Model):
     unique_key = models.IntegerField()
@@ -28,8 +28,8 @@ class Список_ответов(models.Model):
         return str(self.unique_key) + " " + str(self.Дата) + " " +  str(self.Вопрос)
 
     class Meta:
-        verbose_name = "Список_ответов"
-        verbose_name_plural = "Список_ответов"
+        verbose_name = "Таблица ответов"
+        verbose_name_plural = "Таблица ответов"
         
 
 class Список_ПВИ(models.Model):
@@ -40,8 +40,8 @@ class Список_ПВИ(models.Model):
         return str(self.Название_ПВИ)
 
     class Meta:
-        verbose_name = "Список_ПВИ"
-        verbose_name_plural = "Список_ПВИ"
+        verbose_name = "Таблица ПВИ"
+        verbose_name_plural = "Таблица ПВИ"
 
 class Дата_окончания_голосования(models.Model):
     Дата = models.DateField()
@@ -50,8 +50,8 @@ class Дата_окончания_голосования(models.Model):
         return str(self.Дата)
 
     class Meta:
-        verbose_name = "Дата_окончания_голосования"
-        verbose_name_plural = "Дата_окончания_голосования"
+        verbose_name = "Дата окончания голосования"
+        verbose_name_plural = "Дата окончания голосования"
 
 class Общие_комментарии(models.Model):
     unique_key = models.IntegerField()
@@ -61,5 +61,5 @@ class Общие_комментарии(models.Model):
         return str(self.unique_key)
 
     class Meta:
-        verbose_name = "Общие_комментарии"
-        verbose_name_plural = "Общие_комментарии"
+        verbose_name = "Таблица комментариев"
+        verbose_name_plural = "Таблица комментариев"
