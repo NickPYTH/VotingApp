@@ -29,11 +29,13 @@
    </div>
 </nav>
 {% endblock nav %}
+
+
 {% block content %}
 <div style="margin-right: 0; margin-left: 0;" class="row">
    <div class="col-md-2"></div>
    <div class="col-md-8">
-      <form method="POST">
+      <form method="POST" enctype="multipart/form-data">
          {% csrf_token %}
          <div class="card text-center m-3">
             <div class="card-header">
@@ -42,19 +44,32 @@
             <div class="card-body">
                <div class="form-group">
                   <label for="exampleFormControlInput1">Ваша электронная почта для обратной связи</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                  <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
                </div>
                <div class="form-group">
                   <label for="exampleFormControlTextarea1">Ваш отзыв или рекомендация</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                  <textarea class="form-control" name="review" id="exampleFormControlTextarea1" rows="3" required></textarea>
                </div>
                <div class="form-group">
-                  <label for="exampleFormControlFile1">Можете прикрепить до 10 фотографий</label>
-                  <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                  <label for="exampleFormControlFile1">Можете прикрепить фотографию</label> 
+                   <input type="file" name="image_file" accept="image/*,video/*" >
                </div>
+                <div id="alert" style="display: none;"  class="alert alert-danger" role="alert">
+                Вы выбрали больше 10 файлов
+                </div>
+                {% if send %}
+                    <div id="alert" class="alert alert-success ml-2 mr-2" role="alert">
+                        Успешно отправлено
+                    </div>
+                {% endif %}
+                <button id="send" value="Send" type="submit" class="btn btn-outline-secondary mt-2 mb-2 ml-lg-2 mr-lg-2" role="button">Отправить</button>
             </div>
          </div>
       </form>
    </div>
 </div>
+{{kek}}
+<script src="{% static "js/validate_files.js" %}" >
+</script>
+
 {% endblock content %}

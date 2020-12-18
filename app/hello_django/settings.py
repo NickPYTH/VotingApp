@@ -33,7 +33,7 @@ INDEX_LINK = 'http://anketa-pvi.ru/'
 
 #INDEX_LINK = 'http://127.0.0.1:8000/'
 
-ALLOWED_HOSTS = ['188.225.83.42', 'anketa-pvi.ru', 'anketa-pvi', '127.0.0.1']
+ALLOWED_HOSTS = ['188.225.83.42', 'anketa-pvi.ru', 'anketa-pvi','www.anketa-pvi.ru' , '127.0.0.1']
 
 
 # Application definition
