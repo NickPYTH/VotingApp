@@ -32,9 +32,7 @@
     <!-- Header -->
     <div id="header">
         <div id="branding">
-        <!--{% block branding %}{% endblock %}-->
-        <img src="{% static "images/ico.svg" %}" width="35" height="35" alt="Stats">
-        <span id="logo_text">Анкетирование ПВИ</span>
+        {% block branding %}{% endblock %}
         </div>
         {% block usertools %}
         {% if has_permission %}

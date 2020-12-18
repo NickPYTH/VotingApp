@@ -9,6 +9,7 @@ else if (current_time > 22 && current_time < 4 )  welcome.textContent = "Доб�
 
 //-------------------- Замена стиля у текста, у логотипа
 document.getElementById("logo_text").style.color = "white";
+document.getElementById("logo_text").style.marginLeft = "10px";
 document.getElementById("branding").style.display = "flex";
 document.getElementById("branding").style.alignItems = "center";
 //--------------------
